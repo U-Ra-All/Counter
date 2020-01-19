@@ -1,6 +1,10 @@
 package com.android.uraall.counter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -8,23 +12,35 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-    private int count;
+    MainActivityViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        model = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
         textView = findViewById(R.id.textView);
+
+        LiveData<Integer> countLiveData = model.getCurrentValue();
+
+        countLiveData.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                textView.setText(String.valueOf(integer));
+            }
+        });
+
+
     }
 
     public void decreaseValue(View view) {
-        count--;
-        textView.setText(String.valueOf(count));
+
+        model.getDecreasedValue();
     }
 
     public void increaseValue(View view) {
-        count++;
-        textView.setText(String.valueOf(count));
+        model.getIncreasedValue();
     }
 }
