@@ -3,7 +3,7 @@ package com.android.uraall.counter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        model = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+//        model = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        model = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
 
         textView = findViewById(R.id.textView);
 
